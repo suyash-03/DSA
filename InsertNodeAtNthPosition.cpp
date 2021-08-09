@@ -48,8 +48,8 @@ class LinkedList{
             tmp1->next = tmp2->next;
             tmp2->next = tmp1;
         }
-    //Printing the List
     }
+    //Printing the List
     void diplayLinkedList(){
         node* tmp;
         tmp = HEAD;
