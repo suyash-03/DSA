@@ -1,7 +1,10 @@
-#include<stdio.h>
 #include<iostream>
+#include<stdio.h>
+#include<cstdio>
+#include<string.h>
 
 #define MAX_SIZE 20
+
 using namespace std;
 
 class Stack{
@@ -10,7 +13,7 @@ class Stack{
     int top = -1;
 
     public:   
-     void Push(int x){
+     void Push(char x){
          if(top == MAX_SIZE - 1){
              std::cout<<"Stack Overflow";
              return;
@@ -36,8 +39,9 @@ class Stack{
             return false;
         }
     }
-    int Top(){
-        return A[top];
+    char Top(){
+        cout<<char(A[top]);
+        return char(A[top]);
     }
 
     void PrintStack(){
@@ -47,13 +51,23 @@ class Stack{
     }
 };
 
-int main(){
+void ReverseString(char *c,int length){
     Stack s1;
-    s1.Push(5);
-    s1.Push(7);
-    s1.Push(9);
-    s1.PrintStack();
-    s1.Pop();
-    s1.PrintStack();
+    Stack s2;
+    for(int i=0; i<length; i++){
+        s1.Push(c[i]);
+    }
+    for(int i=0; i<length; i++){
+        s2.Push(s1.Top());
+        s1.Pop();
+    }
+}
+
+int main(){
+    cout<<"Enter a String \n";
+    char str[51];
+    gets(str);
+    int length = strlen(str);
+    ReverseString(str,length);
     return 0;
 }
