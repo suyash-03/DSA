@@ -40,7 +40,6 @@ class Stack{
         }
     }
     char Top(){
-        cout<<char(A[top]);
         return char(A[top]);
     }
 
@@ -53,12 +52,11 @@ class Stack{
 
 void ReverseString(char *c,int length){
     Stack s1;
-    Stack s2;
     for(int i=0; i<length; i++){
         s1.Push(c[i]);
     }
     for(int i=0; i<length; i++){
-        s2.Push(s1.Top());
+        c[i] = s1.Top();
         s1.Pop();
     }
 }
@@ -69,5 +67,6 @@ int main(){
     gets(str);
     int length = strlen(str);
     ReverseString(str,length);
+    puts(str);
     return 0;
 }

@@ -9,5 +9,5 @@ int main(){
     s1.push('b');
     char c = s1.top();
     cout<<c;
-    return 0;
+    return 0; 
 }
