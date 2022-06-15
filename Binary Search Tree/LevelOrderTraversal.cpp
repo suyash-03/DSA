@@ -35,6 +35,7 @@ BstNode* Insert(BstNode* root,int data) {
 }
 
 // We will use STL queue
+// Time and Space complexity: O(n)
 void levelOrderTraversal(BstNode *root){
     if(root == NULL){
         return;
