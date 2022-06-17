@@ -12,6 +12,9 @@ int main(){
 
     //Method 2 to Insert
     myMap["Shreyas"] = 99;
+    myMap["Rohit"] = 57;
+    myMap["Kishlay"] = 78;
+    myMap["Aditya"] = 65;
 
     //Method 1 to Print
     cout<<myMap["Suyash"]<<endl;
@@ -25,6 +28,13 @@ int main(){
     
     cout<<myMap["Arthur"]<<endl;
     cout<<myMap.size()<<endl;
+
+    unordered_map<string,int>::iterator itr = myMap.begin();
+    cout<<itr->first<<endl;
+    
+    for (auto i = myMap.begin(); i != myMap.end(); i++) {
+        std::cout << i->first<< " : "<< i->second << '\n';
+    }
 
     //To check presence of a key
     if(myMap.count("John") == 0){
