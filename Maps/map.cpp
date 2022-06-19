@@ -13,6 +13,7 @@ int main(){
     marksMap["Kishlay"] = 78;
     marksMap["Aditya"] = 65;
     marksMap["Sachin"] = 53;
+    marksMap["Randi"] = 58;
     
     marksMap.insert( 
         { 
@@ -20,7 +21,7 @@ int main(){
         {"Akshat", 46}
         } 
     );
-
+    
     cout<<marksMap["Atul"]<<endl;
 
     //Inserts default value 0 to a key if while accessing a key that does not exist

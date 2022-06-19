@@ -37,6 +37,11 @@ int main(){
     }
 
     //To check presence of a key
+
+     if(myMap.find("Suyash") != myMap.end()){
+        cout<<"The value with key Suyash Exists \n";
+    }
+
     if(myMap.count("John") == 0){
         cout<<"Key John doest not exist";
     }
