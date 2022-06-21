@@ -32,7 +32,7 @@ int isSameTree(BstNode* A, BstNode* B) {
     if(A == NULL && B == NULL){
         return 1;
     }else if(
-        A != NULL && B != NULL & A->data == B->data 
+        A != NULL && B != NULL && A->data == B->data 
         && isSameTree(A->left,B->left)
         && isSameTree(A->right,B->right))
     {
