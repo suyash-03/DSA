@@ -61,7 +61,7 @@ public:
 
 void ReverseLinkedListUsingStack(linked_list l1){
     stack<struct node*> s1;
-    node* temp = new node;
+    node* temp;
     temp = l1.head;
     if(l1.head == NULL){
         return;
@@ -81,7 +81,7 @@ void ReverseLinkedListUsingStack(linked_list l1){
         temp->next = NULL;
 
         cout<<"The list after Reversal is: \n";
-        node* temp2 = new node;
+        node* temp2;
         temp2 = l1.head;
         while(temp2 != NULL){
             cout<<temp2->data<<"-";
