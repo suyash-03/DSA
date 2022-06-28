@@ -35,6 +35,12 @@ int main(){
     for (auto i = myMap.begin(); i != myMap.end(); i++) {
         std::cout << i->first<< " : "<< i->second << '\n';
     }
+    cout<<endl;
+    
+    for(auto i:myMap){
+        cout<<i.first<<" "<<i.second;
+        cout<<endl;
+    }
 
     //To check presence of a key
 

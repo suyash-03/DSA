@@ -47,13 +47,9 @@ bool isBinarySearchTree(BstNode *root,int minValue,int maxValue){
 
 int main(){
     BstNode *root = NULL;
-    root = Insert(root,10);
-    root = Insert(root,8);
-    root = Insert(root,15);
-    root = Insert(root,6);
-    root = Insert(root,9);
-    root = Insert(root,12);
-    root = Insert(root,18);
+    root = Insert(root,2);
+    root = Insert(root,1);
+    root = Insert(root,3);
     //INT_MIN && INT_MAX are macros for maximum and minimum integer values
     bool ans = isBinarySearchTree(root,INT_MIN,INT_MAX);
     cout<<ans;
