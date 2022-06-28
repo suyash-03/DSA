@@ -47,7 +47,9 @@ void dfs(unordered_map<int,list<int>> &adjList, int &vertices){
     unordered_map<int,bool> visited;
     vector<int> result;
     for(int node = 0; node<vertices; node++){
-        depthFirstSearch(adjList,visited,node,result);
+        if( !visited[node]){
+            depthFirstSearch(adjList,visited,node,result);
+        }
     }
 
     for(int i=0; i<result.size(); i++ ){
