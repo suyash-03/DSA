@@ -28,31 +28,37 @@ unordered_map<int,list<int>> createAdjacencyList(vector<pair<int,int>> edgesList
     cout<<endl;
     return adjList;
 }
-
-vector<int> breadthFirstSearch(unordered_map<int,list<int>> &adjList,int vertices){
-    unordered_map<int,bool> visited;
-    vector<int> ans;
-    queue<int> q;
-    for(int node =0; node<vertices; node++){
-        if( !visited[node] ){
-            q.push(node);
-            visited[node] = 1;
-            while( !q.empty() ){
-                int frontNode = q.front();
-                ans.push_back(frontNode);
-                q.pop();
-
-                //traversing all the neighbours of the front node
-                for(auto i: adjList[frontNode]){
-                    if( !visited[i] ){
-                        q.push(i);
-                        visited[i] = 1;
-                    }
-                }
+bool isCyclicDFS(unordered_map<int,list<int>> &adjList,unordered_map<int,bool> visited,int node,int parent){
+    visited[node] = 1;
+    for(auto i:adjList[node]){
+        if( !visited[i] ){
+            bool result = isCyclicDFS(adjList,visited,i,node);
+            if(result == 1){
+                return true;
             }
         }
+        else if( i != parent){
+            return true;
+        }
     }
-    return ans;
+    return false;
+}
+
+
+bool isGraphCyclic(unordered_map<int,list<int>> adjList,int vertex){
+    unordered_map<int,bool> visited;
+    bool result;
+    for(int node = 0; node<vertex; node++){
+        if( !visited[node] ){
+            result = isCyclicDFS(adjList,visited,node,-1);
+        }
+    }
+    if(result == 1){
+        cout<<"Graph is Cyclic \n";
+    }else{
+        cout<<"Graph is not Cyclic \n";
+    }
+    return result;
 }
 
 
@@ -74,9 +80,6 @@ int main(){
         edgesList.push_back(p);
     }
     unordered_map<int,list<int>> adjList = createAdjacencyList(edgesList);
-    vector<int> result = breadthFirstSearch(adjList,vertices);
-    for(auto i:result){
-        cout<<i<<" ";
-    }
+    isGraphCyclic(adjList,vertices);
     return 0;
 }
