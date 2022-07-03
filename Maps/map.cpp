@@ -8,6 +8,7 @@ int main(){
  
     // Map is an associative array
     map<string, int>  marksMap;
+    map<int,int,greater<int>> mapDecreasingOrder;
     marksMap["Atul"] = 58;
     marksMap["Rohit"] = 57;
     marksMap["Kishlay"] = 78;
