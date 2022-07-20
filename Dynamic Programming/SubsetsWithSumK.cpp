@@ -9,7 +9,7 @@ class Solution{
 	    if( n == 0 && sum != 0){
 	        return 0;
 	    }
-	    if(sum == 0){
+	    if(sum == 0 && n == 0){
 	        return 1;
 	    }
 	    if(dp[n][sum] != -1){
