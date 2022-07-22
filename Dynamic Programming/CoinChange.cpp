@@ -4,32 +4,39 @@
 using namespace std;
 class Solution {
 public:
-    int dp[10010];
-    int recursion(vector<int> &coins,int current){
-        int ans = INT_MAX;
-        if(current == 0){
-            return 0;
+    int dfs(int n,vector<int> &coins,int amount,vector<vector<int>> &dp){
+        if(amount == 0){
+            return dp[n][amount] = 0;
         }
-        if(dp[current] != -1) return dp[current];    
-            for(auto coin: coins){
-                if(current-coin >= 0){
-                ans = min(ans + 0LL,recursion(coins,current-coin) + 1LL);
-                }
-            }                
-        return dp[current]=ans;
+        if( n == 0 && amount != 0){
+            return dp[n][amount] = INT_MAX;
+        }
+        if(dp[n][amount] != -1){
+            return dp[n][amount];
+        }
+        
+        if(coins[n-1] <= amount){
+            return dp[n][amount] = 
+                min( 1ll + dfs(n,coins,amount - coins[n-1],dp) , dfs(n-1,coins,amount,dp) + 0ll );
+        }
+        else return dp[n][amount] = dfs(n-1,coins,amount,dp);
     }
 
     int coinChange(vector<int>& coins, int amount) {
-        memset(dp,-1,sizeof(dp));
-        int res = recursion(coins,amount);
-
-        return res == INT_MAX ? -1 : res;
+        int n = coins.size();
+        vector<vector<int>> dp(n+1,vector<int>(amount+1,-1));
+        int res =  dfs(n,coins,amount,dp);
+        if(res == INT_MAX){
+            return -1;
+        }else{
+            return res;
+        }
     }
 };
 
 int main(){
     Solution s;
     vector<int> v = {3};
-    int res = s.recursion(v,2);
+    int res = s.coinChange(v,2);
     cout<<res;
 }
