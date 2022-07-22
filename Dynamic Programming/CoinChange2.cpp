@@ -6,34 +6,40 @@ using namespace std;
 
 class Solution {
 public:
-    int res = 0;
-    set<vector<int>> st;
-    void recursion(vector<int> &coins,int currentAmount,vector<int> temp){
-        if(currentAmount == 0){
-            sort(temp.begin(),temp.end());
-            st.insert(temp);
+    int dfs(int n,vector<int> &coins,int amount,vector<vector<int>> &dp){
+        if(amount == 0){
+            return dp[n][amount] = 0;
         }
-        for(auto coin:coins){
-            if(currentAmount - coin >= 0){
-                cout<<"(Current Amount): "<<currentAmount<<" - (Coin): "<<coin<<"  (Result): "<<currentAmount-coin<<endl;
-                temp.push_back(coin);
-                recursion(coins,currentAmount - coin,temp);
-            }else{
-                temp.clear();
-            }
+        if( n == 0 && amount != 0){
+            return dp[n][amount] = INT_MAX;
         }
+        if(dp[n][amount] != -1){
+            return dp[n][amount];
+        }
+        
+        if(coins[n-1] <= amount){
+            return dp[n][amount] = 
+                min( 1ll + dfs(n,coins,amount - coins[n-1],dp) , dfs(n-1,coins,amount,dp) + 0ll );
+        }
+        else return dp[n][amount] = dfs(n-1,coins,amount,dp);
     }
-    int change(int amount, vector<int>& coins) {
-        vector<int> temp;
-        recursion(coins,amount,temp);
-        return st.size();
+
+    int coinChange(vector<int>& coins, int amount) {
+        int n = coins.size();
+        vector<vector<int>> dp(n+1,vector<int>(amount+1,-1));
+        int res =  dfs(n,coins,amount,dp);
+        if(res == INT_MAX){
+            return -1;
+        }else{
+            return res;
+        }
     }
 };
 
 int main() {
     Solution s;
     vector<int> coins = {1,2};
-    int ans = s.change(15,coins);
+    int ans = s.coinChange(coins,15);
     cout<<"Answer: "<<ans;
     return 0;
 }
