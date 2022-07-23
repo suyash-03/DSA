@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string.h>
 using namespace std;
 string ans="";
 int  f(int arr[][2],int dp[][1001],int n,int m,string s)
@@ -20,7 +21,6 @@ int find(int arr[][2],int n,int m)
 {
    int dp[n][1001];
    memset(dp,-1,sizeof(dp));
-   
    return f(arr,dp,n-1,m,"");
 }
 int main() {
