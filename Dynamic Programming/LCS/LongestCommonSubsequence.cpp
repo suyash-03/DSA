@@ -4,6 +4,7 @@ using namespace std;
 
 class Solution {
 public:
+    //Make Sure to pass the strings by reference
     int longestCommonSubsequenceUtil(string &text1,string &text2,int n,int m,vector<vector<int>> &dp){
         if(n == 0 || m == 0){
             return 0;
