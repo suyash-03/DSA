@@ -32,7 +32,7 @@ public:
 int main() {
     Solution s;
     vector<int> coins = {1,2};
-    int ans = s.coinChange(coins,15);
+    int ans = s.change(15,coins);
     cout<<"Answer: "<<ans;
     return 0;
 }
