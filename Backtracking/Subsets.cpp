@@ -5,7 +5,7 @@ using namespace std;
 class Solution {
 public:
     vector<vector<int>> result;
-    void dfs(int index,vector<int> nums,vector<int> &temp){
+    void dfs(int index,vector<int> nums,vector<int> temp){
         if(index >= nums.size()){
             result.push_back(temp);
             return;
