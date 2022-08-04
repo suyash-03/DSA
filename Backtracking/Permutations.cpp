@@ -35,3 +35,15 @@ public:
         return result;
     }
 };
+
+int main(){
+    vector<int> v = {1};
+    Solution s;
+    vector<vector<int>> res = s.permute(v);
+    for(auto i:res){
+        for(auto j:i){
+            cout<<j<<" ";
+        }
+        cout<<endl;
+    }
+}
