@@ -30,7 +30,7 @@ public:
 
 int main(){
     Solution s;
-    vector<int> nums = {1,2,3};
+    vector<int> nums = {1,1,3};
     s.subsets(nums);
     return 0;
 }
