@@ -6,10 +6,10 @@ class Solution {
 public:
     int minPathSumUtil(int i,int j,int m,int n,vector<vector<int>> &grid,vector<vector<int>> &dp){
         if(i == m-1 && j == n-1){
-            return INT_MIN + grid[i][j];
+            return grid[i][j];
         }
         if(i > m-1 || j > n-1){
-            return 0;
+            return INT_MAX;
         }
         if(dp[i][j] != -1){
             return dp[i][j];
@@ -21,6 +21,6 @@ public:
         int m = grid.size();
         int n = grid[0].size();
         vector<vector<int>> dp(m+1,vector<int>(n+1,-1));
-        return minPathSumUtil(0,0,m,n,grid,dp) - INT_MIN;
+        return minPathSumUtil(0,0,m,n,grid,dp);
     }
 };
