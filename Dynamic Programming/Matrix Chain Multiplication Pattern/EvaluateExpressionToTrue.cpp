@@ -1,6 +1,6 @@
 #include<iostream>
 #include<bits/stdc++.h>
-using namespact std;
+using namespace std;
 
 class Solution{
 public:
