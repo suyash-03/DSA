@@ -30,7 +30,13 @@ public:
 
 int main(){
     Solution s;
-    vector<int> nums = {1,1,3};
-    s.subsets(nums);
+    vector<int> nums = {1,2,3};
+    vector<vector<int>> ans = s.subsets(nums);
+    for(auto i:ans){
+        for(auto j:i){
+            cout<<j<<" ";
+        }
+        cout<<endl;
+    }
     return 0;
 }
