@@ -1,3 +1,54 @@
+/*
+
+// Striver Code 
+
+class Solution {
+  public:
+    // Function to detect cycle in an undirected graph.
+    bool detectCycle(int source,vector<int> adj[],unordered_map<int,bool> &visited){
+        visited[source] = 1;
+        queue<pair<int,int>> q;
+        q.push({source,-1});
+        while(!q.empty()){
+            int node = q.front().first;
+            int parent = q.front().second;
+            q.pop();
+            for(auto adjacentNode: adj[node]){
+                if(!visited[adjacentNode]){
+                    visited[adjacentNode] = 1;
+                    q.push({adjacentNode,node});
+                }else if(adjacentNode != parent){
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    bool isCycle(int V, vector<int> adj[]) {
+        // Code here
+        unordered_map<int,bool> visited;
+        for(int i=0; i < V; i++){
+            if(!visited[i]){
+                bool res = detectCycle(i,adj,visited);
+                if(res == true){
+                    return true;
+                }
+            }
+        }
+        return false;
+        
+    }
+};
+
+
+
+
+
+*/
+
+
+
 #include<iostream>
 #include<vector>
 #include<unordered_map>
