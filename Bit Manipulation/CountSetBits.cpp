@@ -4,6 +4,8 @@ int countSetBitsHelper(int n){
         if(n%2 != 0){
             count++;
         }
+        
+        //Divide by 2 - Right Shift
         n >>=1;
     }
 
