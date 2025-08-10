@@ -1,34 +1,51 @@
 #include<iostream>
 #include<bits/stdc++.h>
 using namespace std;
-
-  struct TreeNode {
-      int val;
-      TreeNode *left;
-      TreeNode *right;
-      TreeNode() : val(0), left(nullptr), right(nullptr) {}
-      TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+struct TreeNode {
+    int data;
+    TreeNode *left;
+    TreeNode *right;
+    
+    TreeNode(int val) : data(val), left(NULL), right(NULL) {}
 };
 
-class Solution {
+class Solution {	
 public:
-    int solve(TreeNode *root,int &res){
+    int max_path_sum = INT_MIN;
+    int maxPathSumUtil(TreeNode * root){
         if(root == NULL){
             return 0;
         }
-        int l = solve(root->left,res);
-        int r = solve(root->right,res);
-        
-        int temp = max(max(l,r)+root->val,root->val);
-        int ans = max(temp,root->val + l + r);
-        res = max(res,ans);
-        
-        return temp;
+        int leftSum = max(0, maxPathSumUtil(root->left));
+        int rightSum = max(0, maxPathSumUtil(root->right));
+
+        // Track the Global Maximum at Root Level
+        max_path_sum = max(max_path_sum, root->data + leftSum + rightSum);
+        return root->data + max(leftSum,rightSum);
+
     }
     int maxPathSum(TreeNode* root) {
-        int res =INT_MIN;
-        solve(root,res);
-        return res;
+        maxPathSumUtil(root);
+        return max_path_sum;
     }
-};
+};	
+
+int main() {
+    Solution s;
+    TreeNode *root = new TreeNode(1);
+    root->left = new TreeNode(2);
+    root->right = new TreeNode(3);
+    root->left->left = new TreeNode(4);
+    root->left->right = new TreeNode(5);
+    
+    cout << "Maximum Path Sum: " << s.maxPathSum(root) << endl;
+    
+    // Clean up memory
+    delete root->left->left;
+    delete root->left->right;
+    delete root->left;
+    delete root->right;
+    delete root;
+
+    return 0;
+}   
