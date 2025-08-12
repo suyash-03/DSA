@@ -1,6 +1,11 @@
 // Topological Sort , AdjList 
 #include <iostream>
 #include <bits/stdc++.h>
+#include <vector>
+#include <unordered_map>
+#include <queue>
+#include <stack>
+#include <list>  
 using namespace std;
 
 class Solution {
