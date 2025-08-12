@@ -50,6 +50,7 @@ public:
 // Explanation: The path with minimum effort is highlighted in red, and the maximum difference in heights
 // along this path is 2 (between 1 and 3, and between 2 and 5).
 // The path is: (0,0) -> (0,1)  -> (1,1) -> (2,1) -> (2,2).
+// Modified Dijkstra's algorithm is used to find the minimum effort path in a grid. 
 int main() {
     Solution s;
     vector<vector<int>> heights = {
