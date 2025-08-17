@@ -39,20 +39,19 @@ BstNode* Insert(BstNode* root,int data) {
 void levelOrderTraversal(BstNode *root){
     if(root == NULL){
         return;
-    }else{
-        queue<BstNode*> q;
-        q.push(root);
-        while( !q.empty() ){
-            BstNode* current = q.front();
-            cout<<current->data<<" ";
-            if(current->left != NULL){
-                q.push(current->left);
-            }
-            if(current->right != NULL){
-                q.push(current->right);
-            }
-            q.pop();  //removing the element at first
+    }
+    queue<BstNode*> q;
+    q.push(root);
+    while( !q.empty() ){
+        BstNode* current = q.front();
+        cout<<current->data<<" ";
+        if(current->left != NULL){
+            q.push(current->left);
         }
+        if(current->right != NULL){
+            q.push(current->right);
+        }
+        q.pop();  //removing the element at first
     }
 }
 
