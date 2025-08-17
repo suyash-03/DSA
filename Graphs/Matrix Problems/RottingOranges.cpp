@@ -1,143 +1,63 @@
-#include<iostream>
-#include<bits/stdc++.h>
-using namespace std;
-
-//Striver Solution -  Best
-
-class Solution2 {
-public:
-    int orangesRotting(vector<vector<int>>& grid) {
-        int m = grid.size();
-        int n = grid[0].size();
-
-        queue<pair<pair<int,int>,int>> q;
-        vector<vector<int>> visited(m,vector<int>(n,0));
-
-        for(int i=0; i < m; i++){
-            for(int j=0; j<n; j++){
-                if(grid[i][j] == 2){
-                    q.push({{i,j},0});
-                    visited[i][j] = 2;
-                }else{
-                    visited[i][j] = 0;
-                }
-            }
-        }
-
-        int tm = 0;
-        vector<int> dRow = {-1,0,+1,0};
-        vector<int> dCol = {0,1,0,-1};
-
-        while(!q.empty()){
-            int r = q.front().first.first;
-            int c = q.front().first.second;
-            int t = q.front().second;
-            tm = max(tm,t);
-            q.pop();
-            for(int i=0; i < 4; i++){
-                int newR = r + dRow[i];
-                int newC = c + dCol[i];
-                if(newR < m && newR >= 0 && newC < n && newC >= 0 
-                && visited[newR][newC] == 0 && grid[newR][newC] == 1 ){
-                    q.push({{newR,newC},t+1});
-                    visited[newR][newC] = 2;
-                }
-            }
-        }
-
-        for(int i = 0; i < m ; i++){
-            for(int j = 0; j < n ; j++){
-                if(grid[i][j] == 1 && visited[i][j] != 2){
-                    return -1;
-                }
-            }
-        }
-
-        return tm;
-    }
-};
-
-
-
+#include <vector>
+#include <queue>
+#include <iostream>
+using namespace std;        
+// This question is about finding the minimum time required to rot all oranges in a grid.
+// The grid contains three types of cells: empty (0), fresh oranges (1), and rotten oranges (2).
+// The rotten oranges spread their rot to adjacent fresh oranges in one minute.     
 class Solution {
 public:
-    struct Node{
-        int timeFrame;
-        pair<int,int> position;
-    };
-    
-    int orangesRotting(vector<vector<int>> &grid) {
-        queue<Node> q;
-        int m = grid.size();
-        int n = grid[0].size();
-        
-        for(int i=0; i<m; i++){
-            for(int j = 0; j<n; j++){
+    int orangesRotting(vector<vector<int>>& grid) {
+        int n = grid.size();
+        int m = grid[0].size();
+        queue<pair<int,int>> q;
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
                 if(grid[i][j] == 2){
-                    Node node;
-                    node.timeFrame = 0;
-                    node.position = {j,i};
-                                    //x,y
-                    q.push(node);
+                    q.push({i,j});
+                }
+            }
+        }
+        // Directions
+        vector<int> dr = {-1, 0, 1, 0};
+        vector<int> dc = {0, -1, 0, 1};
+        
+        // Implement Multi Source BFS, after all rotten oranges are identified
+        int ans = -1; 
+        while(!q.empty()){
+            int sz = q.size();
+            ans++; // For the first loop iteration it will come to default
+            for(int s = 0; s < sz; s++){
+                int i = q.front().first;
+                int j = q.front().second;
+                q.pop();
+                for(int k = 0; k < 4; k++){
+                    int new_i = i + dr[k];
+                    int new_j = j + dc[k];
+                    if(new_i >= 0 && new_i < n && new_j >= 0 && new_j < m && grid[new_i][new_j] == 1){
+                        q.push({new_i, new_j});
+                        grid[new_i][new_j] = 2;
+                    }
                 }
             }
         }
 
-        int currentTimeFrame = 0;
-
-        while(!q.empty()){
-            Node frontNode = q.front();
-            q.pop();
-            int x = frontNode.position.first;
-            int y = frontNode.position.second;
-            currentTimeFrame = frontNode.timeFrame;
-            Node node;
-
-            if(x+1 < n && grid[y][x+1] == 1){
-                node.timeFrame = currentTimeFrame+1;
-                node.position = {x+1,y};
-                grid[y][x+1] = 2;
-                q.push(node);
-            }
-            
-            if(x-1 >= 0 && grid[y][x-1] == 1){
-                node.timeFrame = currentTimeFrame+1;
-                node.position = {x-1,y};
-                grid[y][x-1] = 2;
-                q.push(node);
-            }
-            
-            if(y+1 < m && grid[y+1][x] == 1){
-                node.timeFrame = currentTimeFrame+1;
-                node.position = {x,y+1};
-                grid[y+1][x] = 2;
-                q.push(node);
-            }
-
-            if(y-1 >= 0 && grid[y-1][x] == 1){
-                node.timeFrame = currentTimeFrame+1;
-                node.position = {x,y-1};
-                grid[y-1][x] = 2;
-                q.push(node);
-            }    
-        }
-        
-        for(int i=0; i<m; i++){
-            for(int j=0; j<n; j++){
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
                 if(grid[i][j] == 1){
                     return -1;
                 }
             }
         }
-        return currentTimeFrame;
+        return ans == -1 ? 0 : ans;
     }
 };
 
-
-int main(){
-    vector<vector<int>> grid = {{2},{1}};
-    Solution s;
-    int res = s.orangesRotting(grid);
-    cout<<res;
+int main() {
+    Solution sol;
+    vector<vector<int>> grid = {{2,1,1},{1,1,0},{0,1,1}};
+    int result = sol.orangesRotting(grid);
+    // Output the result
+    cout << "Minimum time to rot all oranges: " << result << endl;
     return 0;
-}
+}   
