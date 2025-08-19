@@ -1,5 +1,7 @@
 #include <iostream>
-#include <bits/stdc++.h>
+#include <vector> 
+#include <set>
+#include <algorithm>
 using namespace std;
 
 class Solution {
@@ -31,3 +33,22 @@ public:
         return result;
     }
 };
+
+int main() {
+    Solution s;
+    vector<int> nums = {1,2,2};
+    vector<vector<int>> result = s.subsetsWithDup(nums);
+    
+    // Printing Result
+    for(auto &subset : result) {
+        cout << "[";
+        for(int i = 0; i < subset.size(); i++) {
+            cout << subset[i];
+            if(i < subset.size() - 1) cout << ", ";
+        }
+        cout << "]" << endl;
+    }
+    
+    return 0;
+}
+
