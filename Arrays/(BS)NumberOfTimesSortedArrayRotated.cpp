@@ -2,32 +2,34 @@
 #include <vector>
 using namespace std;
 
-int findKRotation(vector<int> &arr) {
-    int low = 0, high = arr.size() - 1;
-    
-    while (low <= high)
-    {
-        // If subarray is already sorted, 
-        // smallest is at low
-        if (arr[low] <= arr[high])        
-            return low;
-                    
-        int mid = (low + high) / 2;
-    
-        // Minimum is in the right half
-        if (arr[mid] > arr[high])
-            low = mid + 1;
-        // Minimum is in the left half (could be mid)
-        else
-            high = mid;
+class Solution {
+public:
+    int findKRotation(vector<int> &nums)  {
+        int start = 0;
+        int end = nums.size() - 1;
+
+        // Basically we need to find the index of the smallest element
+        while(start <= end){
+            //Array is sorted
+            if(nums[start] <= nums[end]){
+                return start;
+            }
+            int middle = (start + end)/2;
+            if(nums[start] <= nums[middle]){
+                start = middle + 1;
+            }else{
+                end = middle;
+            }
+        }
+
+        return start;
     }
-    
-    return low;
-}
+};
 
 int main()
 {
     vector<int> arr = {15, 18, 2, 3, 6, 12};
-    cout << findKRotation(arr);
+    Solution sol;
+    cout << sol.findKRotation(arr);
     return 0;
 }
