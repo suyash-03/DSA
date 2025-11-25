@@ -1,3 +1,6 @@
+#include <string>
+#include <vector>
+using namespace std;
 class Solution {
 public:
     int lcs(int n,int m, string &word1,string &word2,vector<vector<int>> &dp){
@@ -27,3 +30,11 @@ public:
         return res;
     }
 };
+
+int main(){
+    Solution sol;
+    string word1 = "horse";
+    string word2 = "ros";
+    int result = sol.minDistance(word1,word2);
+    return 0;
+}
