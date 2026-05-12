@@ -22,35 +22,35 @@ class Solution {
 public:
     bool checkInclusion(string s1, string s2) {
         int n1 = s1.size();
-        unordered_map<char,int> myMap1;
-
         int n2 = s2.size();
-        unordered_map<char,int> myMap2;
-        
-        if(n2 < n1) return false;
 
-        for(auto c:s1){
-            myMap1[c]++;
+        if(n1 > n2) return false;
+
+        unordered_map<char,int> freq1;
+        for(auto i: s1){
+            freq1[i]++;
         }
 
-        for(int i = 0; i < n1; i++){
-            myMap2[s2[i]]++;
+        unordered_map<char,int> freq2;
+ 
+
+        for(int k = 0; k <= n1-1; k++){
+            freq2[s2[k]]++;
         }
 
-        if(myMap1 == myMap2) return true;
-
-        for(int i = n1; i < n2; i++){
-            myMap2[s2[i]]++;
-            myMap2[s2[i-n1]]--;
-
-            if(myMap2[s2[i-n1]] == 0){
-                myMap2.erase(s2[i-n1]);
-            }
-
-            if(myMap2 == myMap1){
-                return true;
-            }
+        int i = 0;
+        int j = n1-1;
+        while(j < n2){
+            if(freq1 == freq2) return true;
+            
+            j++;
+            freq2[s2[j]]++;
+           
+            freq2[s2[i]]--;
+            if(freq2[s2[i]] == 0) freq2.erase(s2[i]);
+            i++;
         }
-        return false;       
+
+        return false;
     }
 };
