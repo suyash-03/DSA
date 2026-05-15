@@ -1,5 +1,23 @@
-#include<bits/stdc++.h>
+#include<iostream>
+#include<vector>
+#include<unordered_map>
+#include<list>
+#include<stack>
 using namespace std;
+
+/*
+    Topological Sort using DFS
+
+    Works only for a directed acyclic graph (DAG).
+
+    Input:
+    vertices edges
+    u1 v1
+    u2 v2
+    ...
+
+    Each edge u v means u -> v.
+*/
 
 void printAdjacencyList(unordered_map<int,list<int>> adjList){
     unordered_map<int,list<int>>::iterator ptr;
@@ -24,26 +42,41 @@ unordered_map<int,list<int>> createAdjacencyList(vector<pair<int,int>> edgesList
     return adjList;
 }
 
-void topologicalSortUtil(unordered_map<int,list<int>> &adjList,unordered_map<int,bool> &visited,stack<int> &s,int node){
+bool topologicalSortUtil(unordered_map<int,list<int>> &adjList,unordered_map<int,bool> &visited,unordered_map<int,bool> &dfsVisited,stack<int> &s,int node){
     visited[node] = 1;
+    dfsVisited[node] = 1;
+
     for(auto i:adjList[node]){
         if( !visited[i] ){
-            topologicalSortUtil(adjList,visited,s,i);
+            bool isPossible = topologicalSortUtil(adjList,visited,dfsVisited,s,i);
+            if(!isPossible){
+                return false;
+            }
+        }else if(dfsVisited[i]){
+            return false;
         }
     }
+
+    dfsVisited[node] = 0;
     
     //Main Part of DFS Topological Sort
     s.push(node);
+    return true;
 }
 
 //If TLE use vector<int> for visited
 void topologicalSort(unordered_map<int,list<int>> adjList,int vertices){
     unordered_map<int,bool> visited;
+    unordered_map<int,bool> dfsVisited;
     vector<int> result;
     stack<int> s;
     for(int node=0; node<vertices; node++){
         if(!visited[node]){
-            topologicalSortUtil(adjList,visited,s,node);
+            bool isPossible = topologicalSortUtil(adjList,visited,dfsVisited,s,node);
+            if(!isPossible){
+                cout<<"Topological sort is not possible because the directed graph contains a cycle\n";
+                return;
+            }
         }
     }
     while(!s.empty()){
@@ -51,13 +84,16 @@ void topologicalSort(unordered_map<int,list<int>> adjList,int vertices){
         s.pop();
     }
     for(int i=0; i<result.size(); i++){
-        cout<<result[i]<<" ";
+        cout<<result[i]<<" ";   
     }
 }
 
 
 //Graph is directed
 int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
     int vertices;
     int edges;
     vector<pair<int,int>> edgesList;

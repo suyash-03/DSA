@@ -18,7 +18,12 @@ class Solution {
 	        }
 	    }
 		int LongestRepeatingSubsequence(string str){
-		    // Code here
+		    // Longest Repeating Subsequence is the longest subsequence that appears
+		    // at least twice in the same string, using different character indices.
+		    // It can be found like LCS of the string with itself, while skipping
+		    // matches where both characters come from the same index.
+		    // Example: str = "axxzxy", the longest repeating subsequence is "xx",
+		    // so the answer is 2.
 		    string strCopy = str;
 		    int n = str.size();
 		    int m = n;
