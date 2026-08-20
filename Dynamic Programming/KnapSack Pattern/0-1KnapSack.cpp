@@ -1,3 +1,6 @@
+#include <bits/stdc++.h>
+using namespace std;
+
 /*
 Question:
 Given two integer arrays val and wt of size N each which represent values and weights associated with N items respectively.

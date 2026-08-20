@@ -1,6 +1,9 @@
 #include<iostream>
 #include<vector>
 #include<string>
+#include<sstream>
+#include<algorithm>
+using namespace std;
 
 /*
 Given an input string s, reverse the order of the words.

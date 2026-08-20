@@ -1,5 +1,6 @@
 #include <vector>
 #include <bits/stdc++.h>
+using namespace std;
 
 /*
 A^A = 0

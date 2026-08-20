@@ -1,3 +1,6 @@
+#include <bits/stdc++.h>
+using namespace std;
+
 class Solution {
 public:
     bool existsUtil(int i, int j, int m, int n, vector<vector<char>>& board, string word, int index, vector<vector<int>>& visited) {
