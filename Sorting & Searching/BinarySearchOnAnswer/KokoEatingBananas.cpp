@@ -5,33 +5,34 @@ using namespace std;
 
 class Solution {
 public:
-    long long calculateMinHours(int speed, vector<int> &piles){
-        long long hours = 0;
+    bool canFinish(int speed, int h, vector<int> &piles){
+        long long takenHours = 0;
         for(int i = 0; i < piles.size(); i++){
-            // Typecasting to double is required because integer division happens before ceil() is called. So, we need to make sure that the division happens in double.
-            hours += ceil((double)piles[i] / speed); 
+            // Typecasting to double to avoid integer division and then taking ceil of the result to get the number of hours taken for each pile.
+            takenHours += ceil((double)piles[i]/speed); 
         }
 
-        return hours;
+        if(takenHours <= h) return true;
+        else return false;
     }
 
     int minEatingSpeed(vector<int>& piles, int h) {
-        int min_speed = 1;
-        int max_speed = *max_element(piles.begin(), piles.end());
+        int n = piles.size();
+        
+        int minSpeed = 1;
+        int maxSpeed = *max_element(piles.begin(), piles.end());
+        int ans = 0;
+        while(minSpeed <= maxSpeed){
+            int midSpeed = (minSpeed+maxSpeed)/2;
 
-        int start = min_speed;
-        int end = max_speed;
-        int ans = -1;
-
-        while(start <= end){
-            int middle = start + (end - start) / 2;
-            if(calculateMinHours(middle, piles) <= h){
-                ans = middle;
-                end = middle-1;
+            if(canFinish(midSpeed, h, piles)){
+                ans = midSpeed;
+                maxSpeed = midSpeed-1;
             }else{
-                start = middle + 1;
+                minSpeed = midSpeed+1;
             }
         }
+
         return ans;
     }
 };
