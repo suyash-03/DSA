@@ -8,6 +8,7 @@ public:
     long long calculateMinHours(int speed, vector<int> &piles){
         long long hours = 0;
         for(int i = 0; i < piles.size(); i++){
+            // Typecasting to double is required because integer division happens before ceil() is called. So, we need to make sure that the division happens in double.
             hours += ceil((double)piles[i] / speed); 
         }
 
