@@ -8,57 +8,50 @@
 #include <list>  
 using namespace std;
 
+// Problem: Course Schedule
+// There are a total of numCourses courses you have to take, labeled from 0 to numCourses-1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+// Basically we are checking if the graph is cyclic or not. If it is cyclic then we cannot finish all the courses. If it is acyclic then we can finish all the courses.
 class Solution {
 public:
-    unordered_map<int,list<int>> adjList;
-    unordered_map<int,bool> visited;
-    stack<int> s;
-    vector<int> result;
-    void createAdjacencyList(vector<vector<int>> &prerequisites){
-        for(int i=0; i<prerequisites.size(); i++){
-            int u = prerequisites[i][1];
-            int v = prerequisites[i][0];
-            
+    unordered_map<int, list<int>> createAdjList(vector<vector<int>> &prerequisites){
+        unordered_map<int,list<int>> adjList;
+        for(int i = 0; i < prerequisites.size(); i++){
+            int u = prerequisites[i][0];
+            int v = prerequisites[i][1];
+
             adjList[u].push_back(v);
         }
+
+        return adjList;
     }
-    
-    void topologicalSortUtil(int node){
-        visited[node] = 1;
+    bool isCyclic(int node, unordered_map<int,list<int>> &adjList, unordered_map<int, bool> &visited, unordered_map<int, bool> &dfsVisited){
+        visited[node] = true;
+        dfsVisited[node] = true;
         for(auto i: adjList[node]){
             if(!visited[i]){
-                topologicalSortUtil(i);
+                if(isCyclic(i, adjList, visited, dfsVisited)) return true;
+            }else if(dfsVisited[i]){
+                return true;
             }
         }
-        s.push(node);
+
+        dfsVisited[node] = false;
+        return false;
     }
-    
-    void topologicalSort(int vertices){
-        for(int node=0; node<vertices; node++){
-            if(!visited[node]){
-                topologicalSortUtil(node);
-            }
-        }
-    }
-    
+
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        createAdjacencyList(prerequisites);
-        topologicalSort(numCourses);
-        while(!s.empty()){
-            result.push_back(s.top());
-            s.pop();
-        }
-        unordered_map<int,bool> hasVisited;
-        for(int i=0 ; i<result.size(); i++){
-            hasVisited[result[i]] = 1;
-            for(auto j : adjList[result[i]]){
-                if(hasVisited[j] == 1) return false;
+        unordered_map<int, bool> visited;
+        unordered_map<int, bool> dfsVisited;
+        unordered_map<int, list<int>> adjList = createAdjList(prerequisites);
+
+        for(int i = 0; i < numCourses; i++){
+            if(!visited[i]){
+                if(isCyclic(i, adjList, visited, dfsVisited)) return false;
             }
         }
         return true;
     }
 };
-
 int main() {
     Solution s1;
     vector<vector<int>> toPass;
