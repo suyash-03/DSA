@@ -1,69 +1,115 @@
 #include <iostream>
+#include <list>
 #include <bits/stdc++.h>
 using namespace std;
 
+class DSU{
+    private:
+        vector<int> rank;
+        vector<int> parent;
+
+    public:
+        DSU(int n){
+            rank.resize(n+1, 0);
+            parent.resize(n+1, 0);
+
+            for(int i = 0; i < n+1; i++){
+                parent[i] = i;
+            }
+        }
+
+        int findUParent(int node){
+            if(parent[node] == node){
+                return node;
+            }
+            return parent[node] = findUParent(parent[node]);
+        }
+
+        void unionByRank(int u, int v){
+            int pu = findUParent(u);
+            int pv = findUParent(v);
+
+            if(pu == pv) return;
+
+            if(rank[pu] < rank[pv]){
+                parent[pu] = pv;
+            }else if(rank[pv] < rank[pu]){
+                parent[pv] = pu;
+            }else{
+                parent[pv] = pu;
+                rank[pu]++;
+            }
+        }
+};
+
 class Solution {
 public:
-    int count = 0;
-    void setVectors(vector<int> &parent,vector<int> &rank,int n){
-        for(int i=0; i<n; i++){
-            parent[i] = i;
-            rank[i] = 0;
-        }
-    }
-    
-    int findParent(int node, vector<int> &parent){
-        cout<<parent[node]<<endl;
-        if(parent[node] == node){
-            return node;
-        }
-        //path compression logic
-        return parent[node] = findParent(parent[node],parent);
-        
-    }
-    
-    void unionSet(int u,int v,vector<int> &parent, vector<int> &rank){
-        u = findParent(u,parent);
-        v = findParent(v,parent);
-        if(u != v){
-            count++;
-            if(rank[u] < rank[v]){
-                parent[u] = v;
-            }else if(rank[v] < rank[u]){
-                parent[v] = u;
-            }else{
-                parent[v] = u;
-                rank[u]++;
-            }            
-        }
-    }
-    
-    
     int findCircleNum(vector<vector<int>>& isConnected) {
-        int n = isConnected.size() + 1;
-        vector<int> parent(n);
-        vector<int> rank(n);
-        setVectors(parent,rank,n);
-        
-        for(int i=0; i<isConnected.size(); i++){
-            for(int j=0; j<isConnected[0].size(); j++){
-                if(isConnected[i][j] == 1 && i != j){
-                    int u = i+1;
-                    int v = j+1;
-                    unionSet(u,v,parent,rank);
+        int n = isConnected.size();
+        int ans = 0;
+        DSU dsu(n);
+
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                if(isConnected[i][j]){
+                    dsu.unionByRank(i, j);
                 }
             }
         }
-        return (isConnected.size()-count);
         
+        for(int i = 0; i < n; i++){
+            if(i == dsu.findUParent(i)){
+                ans++;
+            }
+        }
+
+        return ans;
     }
 };
 
-int main(){
-    Solution s;
-    vector<vector<int>> isConnected = {{1,1,0},{1,1,0},{0,0,1}};
-    int res = s.findCircleNum(isConnected);
-    cout<<"The value of count is: " <<s.count<<endl;
-    cout<<res; 
-    return 0;
-}
+//DFS
+
+class Solution {
+public:
+    unordered_map<int, list<int>> createAdjList(vector<vector<int>>& isConnected, int n){
+        unordered_map<int, list<int>> adjList;
+
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                if(isConnected[i][j]){
+                    int u = i+1;
+                    int v = j+1;
+
+                    adjList[u].push_back(v);
+                    adjList[v].push_back(u);
+                }
+            }
+        }
+
+        return adjList;
+    }
+    void dfs(int node, unordered_map<int, list<int>> &adjList, unordered_map<int, bool> &visited){
+        visited[node] = true;
+        for(auto i: adjList[node]){
+            if(!visited[i]){
+                dfs(i, adjList, visited);
+            }
+        }
+    }
+
+    int findCircleNum(vector<vector<int>>& isConnected) {
+        int n = isConnected.size();
+        unordered_map<int, list<int>> adjList = createAdjList(isConnected, n);
+        unordered_map<int, bool> visited;
+        int ans = 0;
+
+        for(int node = 1; node <= n; node++){
+            if(!visited[node]){
+                ans++;
+                dfs(node, adjList, visited);
+            }
+        }
+
+        return ans;
+    }
+};
