@@ -1,40 +1,36 @@
-// Online C++ compiler to run C++ program online
 #include <iostream>
 #include <bits/stdc++.h>
+#include <set>
 using namespace std;
 
-int longestConsecutive(const vector<int> &A) {
-if(A.size() == 0) return 0;
-    vector<int> temp;
-    unordered_map<int,int> myMap;
-    for(int i=0; i<A.size(); i++){
-        if(myMap.find(A[i]) != myMap.end()){
-            continue;
-        }else{
-            temp.push_back(A[i]);
-            myMap[A[i]]++;
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        if(nums.size() == 0) return 0;
+        
+        set<int> st(nums.begin(), nums.end());
+
+        vector<int> uNums;
+        for(auto num: st){
+            uNums.push_back(num);
         }
-    }
-    sort(temp.begin(),temp.end());
-    int count = 1;
-    int maxCount = 1;
-    for(int i=0; i<temp.size()-1; i++){
-        if((temp[i+1] - temp[i]) == 1){
-            count++;
-        }else{
-            maxCount = max(maxCount,count);
-            count = 1;
+
+        sort(uNums.begin(), uNums.end());
+        int i = 0;
+        int j = 1;
+
+        int n = uNums.size();
+        int len = 1;
+        while(j < n){
+            if(uNums[j] - uNums[j-1] == 1){
+                len = max(len, j-i+1);
+                j++;
+            }else{
+                i++;
+                j=i+1;
+            }
         }
+
+        return len;
     }
-    maxCount = max(maxCount,count);
-    return maxCount;
-}
-
-
-
-int main() {
-    vector<int> vec = {100,4,200,1,3,2};
-    int res = longestConsecutive(vec);
-    cout<<res;
-    return 0;
-}
+};
