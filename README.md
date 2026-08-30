@@ -1,3 +1,3 @@
 # DSA
-I share code solutions to interesting Data Structures and Algorithms (DSA) problems that I encounter.
+This can't be life man, It has to better than this.
 
